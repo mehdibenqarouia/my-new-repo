@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Image Gallery</title>
+  <style>
+    .gallery { display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; }
+    img { width: 200px; height: 200px; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <h1>My Images</h1>
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    fetch('/api/images')
+      .then(response => response.json())
+      .then(images => {
+        const gallery = document.getElementById('gallery');
+        images.forEach(img => {
+          gallery.innerHTML += `<img src="https://csvpicturespy.neocities.org/${img.path}" alt="${img.path}">`;
+        });
+      });
+  </script>
+</body>
+</html>
