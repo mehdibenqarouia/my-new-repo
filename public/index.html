@@ -1,25 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Image Gallery</title>
-  <style>
-    .gallery { display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; }
-    img { width: 200px; height: 200px; object-fit: cover; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Pictures Library</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .gallery img {
+            margin: 10px;
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-  <h1>My Images</h1>
-  <div class="gallery" id="gallery"></div>
-
-  <script>
-    fetch('/api/images')
-      .then(response => response.json())
-      .then(images => {
-        const gallery = document.getElementById('gallery');
-        images.forEach(img => {
-          gallery.innerHTML += `<img src="https://csvpicturespy.neocities.org/${img.path}" alt="${img.path}">`;
-        });
-      });
-  </script>
+    <h1>CSV Pictures Library</h1>
+    <div class="gallery" id="gallery"></div>
+    <script>
+        async function fetchImages() {
+            try {
+                const response = await fetch('/images');
+                const images = await response.json();
+                const gallery = document.getElementById('gallery');
+                images.forEach(image => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `https://csvpicturespy.neocities.org/${image.path}`;
+                    imgElement.alt = image.path;
+                    gallery.appendChild(imgElement);
+                });
+            } catch (error) {
+                console.error('Error fetching images:', error);
+            }
+        }
+        fetchImages();
+    </script>
 </body>
 </html>
